@@ -51,6 +51,7 @@ addBookForm.addEventListener('submit', (e) => {
             `latitiue=${lat} ,
             longitude=${lng}`
         ) 
+        func(lat,lng);
         busno=addBookForm.busnumber.value;
         addDoc(colRef, {
             busno:  addBookForm.busnumber.value,
@@ -101,6 +102,7 @@ function todo(id){
                 `latitiue=${lat} ,
                 longitude=${lng}`
             ) 
+            func(lat,lng)
             updateDoc(docRef, {
                 location:new GeoPoint(lat, lng)
             })
@@ -111,4 +113,33 @@ function todo(id){
         
             
     }, 30000);
+}
+function func(lati,lngi){
+  // Initialize and add the map
+let map;
+
+async function initMap() {
+  // The location of Uluru
+  const position = { lat: lati, lng: lngi };
+  // Request needed libraries.
+  //@ts-ignore
+  const { Map } = await google.maps.importLibrary("maps");
+  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+  // The map, centered at Uluru
+  map = new Map(document.getElementById("map"), {
+    zoom: 12,
+    center: position,
+    mapId: "DEMO_MAP_ID",
+  });
+
+  // The marker, positioned at Uluru
+  const marker = new AdvancedMarkerElement({
+    map: map,
+    position: position,
+    title: "Uluru",
+  });
+}
+
+initMap();
 }
